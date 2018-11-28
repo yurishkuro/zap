@@ -129,6 +129,14 @@ func (log *Logger) Sugar() *SugaredLogger {
 	return &SugaredLogger{core}
 }
 
+// Contextual wraps the Logger to provide a ContextualLogger that can tag
+// all log entries with metadata extracted from context.Context.
+func (log *Logger) Contextual() *ContextualLogger {
+	core := log.clone()
+	core.callerSkip += 1
+	return &ContextualLogger{core}
+}
+
 // Named adds a new path segment to the logger's name. Segments are joined by
 // periods. By default, Loggers are unnamed.
 func (log *Logger) Named(s string) *Logger {
